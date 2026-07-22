@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import { GeistSans, GeistMono } from "geist/font";
+
 import "./globals.css";
+
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "BUILT TO SOLVE.",
+  title: "Built to Solve",
   description:
-    "Building products that transform complex ideas into measurable impact."
+    "Product Studio of Gowri Manaswini",
 };
 
 export default function RootLayout({
@@ -16,9 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body
+        className={`${GeistSans.className} ${GeistMono.variable} bg-[#070B16] text-white antialiased`}
+      >
         <Header />
-          {children}
+        {children}
         <Footer />
       </body>
     </html>
