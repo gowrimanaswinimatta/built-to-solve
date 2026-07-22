@@ -1,9 +1,13 @@
-import Hero from "@/components/sections/Hero";
+import Navbar from "@/components/navigation/Navbar";
+import Hero from "@/components/hero/Hero";
 
 export default function Home() {
   return (
-    <main>
-      <Hero />
-    </main>
+    <>
+      <Navbar />
+      <main>
+        <Hero />
+      </main>
+    </>
   );
 }
