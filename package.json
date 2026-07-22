@@ -1,0 +1,13 @@
+{
+  "name": "built-to-solve",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Built to Solve - Personal product studio of Gowri Manaswini",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  }
+}
