@@ -6,11 +6,10 @@ export const site = {
   description:
     "Gowri Manaswini designs and builds data platforms, AI-powered products, and automation systems that turn complex business challenges into scalable, measurable solutions.",
   contact: {
-    email: "REPLACE_WITH_EMAIL",
-    linkedin: "REPLACE_WITH_LINKEDIN_URL",
-    github: "REPLACE_WITH_GITHUB_URL",
+    email: "gowrimanaswinimatta@gmail.com",
+    linkedin: "https://www.linkedin.com/in/gowrimanaswini-matta",
+    github: "https://github.com/gowrimanaswinimatta",
   },
-  placeholders: ["email", "linkedin", "github"],
 } as const;
 
 export const navLinks = [

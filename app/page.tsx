@@ -1,11 +1,189 @@
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { Badge, Button, Card, Container, Metric, Section, SectionHeading } from "@/components/ui/design";
+import {
+  Badge,
+  Button,
+  Card,
+  Container,
+  Metric,
+  Section,
+  SectionHeading,
+} from "@/components/ui/design";
 import { impactMetrics, journey } from "@/data/experience";
 import { principles } from "@/data/principles";
 import { products } from "@/data/products";
 
 export default function Home() {
-  return <><Navbar /><main><Section className="min-h-[92svh] pt-32"><Container><div className="grid items-center gap-12 lg:grid-cols-[1.05fr_.95fr]"><div className="reveal"><Badge>Product engineer • Data • AI</Badge><h1 className="mt-8 text-6xl font-semibold leading-none tracking-[-0.08em] sm:text-8xl lg:text-9xl">BUILT TO<br />SOLVE.</h1><p className="mt-8 text-3xl font-light tracking-[-0.04em] text-zinc-200 sm:text-5xl">Turning complexity into clarity.</p><p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-400">I design and build data platforms, AI-powered products, and automation systems that transform complex business challenges into scalable, measurable solutions.</p><div className="mt-10 flex flex-wrap gap-3"><Button href="/products">See My Products</Button><Button href="/experience" variant="secondary">Explore Experience</Button></div><div className="mt-10 flex flex-wrap gap-3"><Badge>Amazon</Badge><Badge>8+ Years</Badge><Badge>Building HirePulse</Badge></div></div><Card className="reveal"><div className="grid gap-4">{["Problem", "Data", "Automation", "AI", "Decision"].map((item,index)=><div key={item} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-zinc-950/60 p-4"><span className="flex size-9 items-center justify-center rounded-full bg-emerald-300/10 text-emerald-300">{index+1}</span><span className="text-lg text-white">{item}</span><span className="ml-auto text-zinc-600">→</span></div>)}</div></Card></div></Container></Section><Section><Container><SectionHeading eyebrow="Selected products" title="Systems built to make decisions, workflows, and operating data clearer." /> <div className="grid gap-5 lg:grid-cols-3">{products.map((p)=><Link key={p.slug} href={`/products/${p.slug}`} className="group rounded-3xl border border-white/10 bg-white/[0.03] p-6 transition hover:-translate-y-1 hover:border-emerald-300/40"><p className="text-sm uppercase tracking-[0.2em] text-emerald-300">Product system</p><h3 className="mt-6 text-2xl font-semibold text-white">{p.title}</h3><p className="mt-4 leading-7 text-zinc-400">{p.positioning}</p><p className="mt-8 text-sm font-semibold text-emerald-200">Read case study →</p></Link>)}</div></Container></Section><Section><Container><SectionHeading eyebrow="Engineering principles" title="A practical operating system for hard problems." /><div className="grid gap-5 md:grid-cols-2">{principles.map((p)=><Card key={p.number}><p className="text-emerald-300">{p.number}</p><h3 className="mt-4 text-2xl font-semibold">{p.title}</h3><p className="mt-3 text-zinc-400">{p.summary}</p></Card>)}</div></Container></Section><Section><Container><Card className="grid gap-8 lg:grid-cols-2" ><div><Badge>The Lab</Badge><h2 className="mt-6 text-4xl font-semibold tracking-[-0.04em]">Exploring what’s next.</h2></div><div><h3 className="text-2xl font-semibold">HirePulse</h3><p className="mt-4 leading-8 text-zinc-400">AI-powered career intelligence platform helping job seekers through résumé intelligence, ATS matching, opportunity scoring, and career insights.</p><Button href="/lab/hirepulse" variant="secondary">Explore HirePulse</Button></div></Card></Container></Section><Section><Container><SectionHeading eyebrow="Business impact" title="Built around outcomes that can be explained." /><div className="grid gap-5 md:grid-cols-3">{impactMetrics.map((m)=><Metric key={m.label} {...m} />)}</div></Container></Section><Section><Container><SectionHeading eyebrow="Experience journey" title="From enterprise data systems to AI product exploration." /><div className="flex flex-wrap gap-3">{journey.map((item)=><Badge key={item}>{item}</Badge>)}</div></Container></Section><Section><Container><Card><h2 className="text-4xl font-semibold tracking-[-0.04em]">Let’s build something meaningful.</h2><p className="mt-5 max-w-2xl leading-8 text-zinc-400">Whether you’re building a product, modernizing data platforms, or exploring AI, I’d love to connect.</p><div className="mt-8"><Button href="/contact">Contact Gowri</Button></div></Card></Container></Section></main><Footer /></>;
+  return (
+    <>
+      <Navbar />
+      <main>
+        <Section className="min-h-[92svh] pt-32">
+          <Container>
+            <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_.95fr]">
+              <div className="reveal">
+                <Badge>Product engineer • Data • AI</Badge>
+                <h1 className="mt-8 text-6xl font-semibold leading-none tracking-[-0.08em] sm:text-8xl lg:text-9xl">
+                  BUILT TO
+                  <br />
+                  SOLVE.
+                </h1>
+                <p className="mt-8 text-3xl font-light tracking-[-0.04em] text-zinc-200 sm:text-5xl">
+                  Turning complexity into clarity.
+                </p>
+                <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-400">
+                  I design and build data platforms, AI-powered products, and
+                  automation systems that transform complex business challenges
+                  into scalable, measurable solutions.
+                </p>
+                <div className="mt-10 flex flex-wrap gap-3">
+                  <Button href="/products">See My Products</Button>
+                  <Button href="/experience" variant="secondary">
+                    Explore Experience
+                  </Button>
+                </div>
+                <div className="mt-10 flex flex-wrap gap-3">
+                  <Badge>Amazon</Badge>
+                  <Badge>8+ Years</Badge>
+                  <Badge>Building HirePulse</Badge>
+                </div>
+              </div>
+              <Card className="reveal">
+                <div className="grid gap-4">
+                  {["Problem", "Data", "Automation", "AI", "Decision"].map(
+                    (item, index) => (
+                      <div
+                        key={item}
+                        className="flex items-center gap-4 rounded-2xl border border-white/10 bg-zinc-950/60 p-4"
+                      >
+                        <span className="flex size-9 items-center justify-center rounded-full bg-emerald-300/10 text-emerald-300">
+                          {index + 1}
+                        </span>
+                        <span className="text-lg text-white">{item}</span>
+                        <span className="ml-auto text-zinc-600">→</span>
+                      </div>
+                    ),
+                  )}
+                </div>
+              </Card>
+            </div>
+          </Container>
+        </Section>
+        <Section>
+          <Container>
+            <SectionHeading
+              eyebrow="Selected products"
+              title="Systems built to make decisions, workflows, and operating data clearer."
+            />{" "}
+            <div className="grid gap-5 lg:grid-cols-3">
+              {products.map((p) => (
+                <Link
+                  key={p.slug}
+                  href={`/products/${p.slug}`}
+                  className="group rounded-3xl border border-white/10 bg-white/[0.03] p-6 transition hover:-translate-y-1 hover:border-emerald-300/40"
+                >
+                  <p className="text-sm uppercase tracking-[0.2em] text-emerald-300">
+                    Product system
+                  </p>
+                  <h3 className="mt-6 text-2xl font-semibold text-white">
+                    {p.title}
+                  </h3>
+                  <p className="mt-4 leading-7 text-zinc-400">
+                    {p.positioning}
+                  </p>
+                  <p className="mt-8 text-sm font-semibold text-emerald-200">
+                    Read case study →
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </Container>
+        </Section>
+        <Section>
+          <Container>
+            <SectionHeading
+              eyebrow="Engineering principles"
+              title="A practical operating system for hard problems."
+            />
+            <div className="grid gap-5 md:grid-cols-2">
+              {principles.map((p) => (
+                <Card key={p.number}>
+                  <p className="text-emerald-300">{p.number}</p>
+                  <h3 className="mt-4 text-2xl font-semibold">{p.title}</h3>
+                  <p className="mt-3 text-zinc-400">{p.summary}</p>
+                </Card>
+              ))}
+            </div>
+          </Container>
+        </Section>
+        <Section>
+          <Container>
+            <Card className="grid gap-8 lg:grid-cols-2">
+              <div>
+                <Badge>The Lab</Badge>
+                <h2 className="mt-6 text-4xl font-semibold tracking-[-0.04em]">
+                  Exploring what’s next.
+                </h2>
+              </div>
+              <div>
+                <h3 className="text-2xl font-semibold">HirePulse</h3>
+                <p className="mt-4 leading-8 text-zinc-400">
+                  AI-powered career intelligence platform helping job seekers
+                  through résumé intelligence, ATS matching, opportunity
+                  scoring, and career insights.
+                </p>
+                <Button href="/lab/hirepulse" variant="secondary">
+                  Explore HirePulse
+                </Button>
+              </div>
+            </Card>
+          </Container>
+        </Section>
+        <Section>
+          <Container>
+            <SectionHeading
+              eyebrow="Business impact"
+              title="Built around outcomes that can be explained."
+            />
+            <div className="grid gap-5 md:grid-cols-3">
+              {impactMetrics.map((m) => (
+                <Metric key={m.label} {...m} />
+              ))}
+            </div>
+          </Container>
+        </Section>
+        <Section>
+          <Container>
+            <SectionHeading
+              eyebrow="Experience journey"
+              title="From enterprise data systems to AI product exploration."
+            />
+            <div className="flex flex-wrap gap-3">
+              {journey.map((item) => (
+                <Badge key={item}>{item}</Badge>
+              ))}
+            </div>
+          </Container>
+        </Section>
+        <Section>
+          <Container>
+            <Card>
+              <h2 className="text-4xl font-semibold tracking-[-0.04em]">
+                Let’s build something meaningful.
+              </h2>
+              <p className="mt-5 max-w-2xl leading-8 text-zinc-400">
+                Whether you’re building a product, modernizing data platforms,
+                or exploring AI, I’d love to connect.
+              </p>
+              <div className="mt-8">
+                <Button href="/contact">Contact Gowri</Button>
+              </div>
+            </Card>
+          </Container>
+        </Section>
+      </main>
+      <Footer />
+    </>
+  );
 }
