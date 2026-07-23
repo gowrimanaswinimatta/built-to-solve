@@ -28,3 +28,5 @@ coverage/
 
 # misc
 *.pem
+
+tsconfig.tsbuildinfo
