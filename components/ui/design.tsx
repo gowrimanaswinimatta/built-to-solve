@@ -1,9 +1,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+type ClassValue = string | false | null | undefined;
 
-const cx = (...classes: ClassValue[]) => twMerge(clsx(classes));
+const cx = (...classes: ClassValue[]) => classes.filter(Boolean).join(" ");
 
 export function Container({
   children,
