@@ -12,7 +12,7 @@ const topics = [
   "Problem framing",
   "Stakeholder alignment",
   "Metric definition",
-  "System design",
+  "Workflow design",
   "Automation judgment",
   "Clarity for non-technical users",
   "Measurement and iteration",
@@ -27,7 +27,7 @@ export default function Thinking() {
             <Heading
               eyebrow="Thinking"
               title="How hard problems become usable systems."
-              text="The work starts before architecture. It starts by making the problem, decision, and measure of success explicit enough for teams to align."
+              text="The work starts before building. It starts by making the problem, decision, and measure of success explicit enough for teams to align."
             />
           </Container>
         </Section>

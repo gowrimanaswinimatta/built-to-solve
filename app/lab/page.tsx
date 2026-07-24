@@ -28,7 +28,7 @@ export default function Lab() {
                 <div className="border-b border-white/10 bg-zinc-950/80 p-6 sm:p-8 lg:border-b-0 lg:border-r">
                   <Badge>Currently building</Badge>
                   <h2 className="mt-6 text-5xl font-semibold tracking-[-0.055em]">HirePulse</h2>
-                  <p className="mt-5 leading-8 text-zinc-400">Job discovery platform that helps job seekers find fresh opportunities from company career sites in one searchable experience.</p>
+                  <p className="mt-5 leading-8 text-zinc-400">Job discovery platform that helps job seekers find opportunities from company career sites in a unified search experience.</p>
                   <div className="mt-8 grid gap-3">
                     {capabilities.map((capability) => <div key={capability} className="rounded-2xl border border-white/10 bg-white/[0.035] p-4 text-sm text-zinc-300">▣ {capability}</div>)}
                   </div>
@@ -45,7 +45,7 @@ export default function Lab() {
                   <div className="mt-6 grid gap-3 md:grid-cols-3">
                     {[
                       ["Coverage", "135,000+ sites"],
-                      ["Source", "Close to employer source"],
+                      ["Source", "Company career sites"],
                       ["Status", "Actively building"],
                     ].map(([label, value]) => <div key={label} className="rounded-2xl border border-emerald-300/15 bg-emerald-300/[0.06] p-4"><p className="text-xs uppercase tracking-[0.16em] text-emerald-200">{label}</p><p className="mt-3 text-lg font-semibold text-white">{value}</p></div>)}
                   </div>
