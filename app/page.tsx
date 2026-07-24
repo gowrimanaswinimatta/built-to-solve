@@ -12,203 +12,42 @@ import {
 import { impactMetrics, journey } from "@/data/experience";
 import { principles } from "@/data/principles";
 
-type WorkSystem = {
-  title: string;
-  status: string;
-  impact: string;
-  category: string;
-  accent: "emerald" | "cyan" | "violet" | "amber";
-  metrics: { label: string; value: string }[];
-  nodes: { label: string; detail: string; tone?: "primary" | "muted" }[];
-  lanes: { label: string; items: string[] }[];
-  signals: string[];
-  decisionLog: string[];
-  map: "automation" | "lineage" | "workspace" | "workflow";
-};
+import { WorkSystemCard, type WorkSystem } from "@/components/workspaces/SystemsConsole";
 
 const selectedWork: WorkSystem[] = [
   {
-    title: "Enterprise Workflow Automation Platform",
-    status: "Production workspace",
-    impact: "≈ $30M value surfaced",
-    category: "Runbook automation",
-    accent: "emerald",
-    metrics: [
-      { label: "Cycle reduction", value: "40%" },
-      { label: "Control points", value: "6" },
-      { label: "State", value: "Live" },
-    ],
-    nodes: [
-      { label: "Intake", detail: "Structured requests" },
-      { label: "Rules", detail: "Deterministic checks" },
-      { label: "Executor", detail: "Automated actions", tone: "primary" },
-      { label: "Exceptions", detail: "Human review" },
-      { label: "Ledger", detail: "Audit record" },
-      { label: "Observability", detail: "Operating view" },
-    ],
-    lanes: [
-      { label: "Pre-flight", items: ["Schema validation", "Eligibility gates", "Duplicate checks"] },
-      { label: "Execution", items: ["Queued work", "Retry policy", "Exception routing"] },
-      { label: "Control", items: ["Audit trail", "Outcome review", "Experiment reads"] },
-    ],
-    signals: ["High-volume queue", "Reviewable failures", "Rule transparency", "Repeatable releases"],
-    decisionLog: ["Kept ambiguous cases outside automation", "Made every action reconstructable", "Separated validation from execution"],
-    map: "automation",
+    title: "Enterprise Workflow Automation Platform", status: "Production workspace", impact: "≈ $30M value surfaced", category: "Orchestration Engine", accent: "emerald",
+    metrics: [{ id: "cycle", label: "Cycle reduction", value: "40%", context: "Measured against the manual operating cadence after approvals, exception routing, and completion checks moved into one orchestrated flow." }, { id: "controls", label: "Checkpoints", value: "6", context: "Approval and audit checkpoints keep automation bounded while preserving a reviewable history." }, { id: "state", label: "Completion", value: "Live", context: "The workspace separates active, completed, warning, and idle states so operators know what needs attention." }],
+    nodes: [{ id: "n01", label: "Intake", detail: "Structured requests", status: "complete", related: ["n02", "n04"], meta: "Requests enter with enough context for eligibility review, routing, and audit reconstruction." }, { id: "n02", label: "Eligibility", detail: "Workflow gates", status: "complete", related: ["n01", "n03"], meta: "Deterministic gates decide whether work can proceed automatically or needs approval." }, { id: "n03", label: "Approval", detail: "Control checkpoint", status: "active", related: ["n02", "n04", "n06"], meta: "Approval checkpoints make ownership explicit before execution changes operational state." }, { id: "n04", label: "Executor", detail: "Queued actions", status: "active", related: ["n03", "n05"], meta: "Execution history shows queued, retried, completed, and exception outcomes without burying operators in logs." }, { id: "n05", label: "Exceptions", detail: "Retry or review", status: "warning", related: ["n04", "n06"], meta: "Exceptions stay visible as reviewable work, with retry state and resolution owner close to the task." }, { id: "n06", label: "Audit trail", detail: "Completion record", status: "idle", related: ["n03", "n05"], meta: "Every action resolves into a reconstructable completion record for operational review." }],
+    lanes: [{ id: "pre", label: "Pre-flight", items: ["Eligibility gates", "Approval checkpoint", "Dependency check"], dependsOn: ["n01", "n02", "n03"] }, { id: "run", label: "Execution", items: ["Queued work", "Retry state", "Exception routing"], dependsOn: ["n04", "n05"] }, { id: "audit", label: "Control", items: ["Audit trail", "Outcome review", "Completion status"], dependsOn: ["n03", "n06"] }],
+    signals: [{ label: "Queue healthy", state: "active", detail: "Work is moving through the current operating window." }, { label: "Exception review", state: "warning", detail: "Ambiguous items are isolated for human approval." }, { label: "Audit complete", state: "complete", detail: "Completed actions include owner, state, and decision context." }],
+    decisions: [{ path: "Automate only bounded work", rationale: "The orchestration layer handles high-confidence paths and routes ambiguous cases before execution.", outcome: "Reduced cycle time while keeping riskier work reviewable.", related: ["n02", "n03", "n05"] }, { path: "Make history operational", rationale: "Execution history is treated as a first-class workspace object, not an afterthought.", outcome: "Operators can explain completion, retry, and exception states quickly.", related: ["n04", "n05", "n06"] }], map: "automation"
   },
   {
-    title: "Unified Analytics Platform",
-    status: "Trusted metric layer",
-    impact: "Reusable KPI foundation",
-    category: "Analytical control plane",
-    accent: "cyan",
-    metrics: [
-      { label: "Sources", value: "Many" },
-      { label: "Definitions", value: "One" },
-      { label: "Consumers", value: "Multi-team" },
-    ],
-    nodes: [
-      { label: "Operational feeds", detail: "Raw source contracts" },
-      { label: "Ingestion", detail: "Refresh checks" },
-      { label: "Canonical models", detail: "Normalized grain", tone: "primary" },
-      { label: "Metric layer", detail: "Shared definitions", tone: "primary" },
-      { label: "Explores", detail: "Reusable views" },
-      { label: "Decision forums", detail: "Aligned reads" },
-    ],
-    lanes: [
-      { label: "Modeling", items: ["Source map", "Grain selection", "Business rules"] },
-      { label: "Governance", items: ["Metric contracts", "Definition notes", "Quality checks"] },
-      { label: "Consumption", items: ["Executive view", "Team drilldown", "Ad hoc path"] },
-    ],
-    signals: ["Metric ownership", "Reconciliation removed", "Traceable definitions", "Shared operating language"],
-    decisionLog: ["Designed the model around recurring questions", "Made context visible near the number", "Optimized for trust before dashboard volume"],
-    map: "lineage",
+    title: "Unified Analytics Platform", status: "Trusted metric layer", impact: "Reusable KPI foundation", category: "BI Control Plane", accent: "cyan",
+    metrics: [{ id: "sources", label: "Sources", value: "Many", context: "Multiple upstream business systems resolve into governed definitions and refresh status." }, { id: "defs", label: "Definitions", value: "One", context: "The semantic layer gives teams a shared place to inspect metric ownership and definition notes." }, { id: "consumers", label: "Consumers", value: "Multi-team", context: "Dashboards and decision forums consume the same governed metric layer." }],
+    nodes: [{ id: "n01", label: "Business sources", detail: "Upstream contracts", status: "complete", related: ["n02"], meta: "Source ownership and refresh status are visible before metric consumers see the number." }, { id: "n02", label: "Quality checks", detail: "Refresh status", status: "active", related: ["n01", "n03"], meta: "Refresh checks identify whether upstream movement affects downstream trust." }, { id: "n03", label: "Semantic layer", detail: "Governed definitions", status: "active", related: ["n02", "n04", "n05"], meta: "Definitions, owners, and accepted business grain sit together so teams stop reconciling separate versions." }, { id: "n04", label: "Metric catalog", detail: "Ownership metadata", status: "complete", related: ["n03", "n06"], meta: "Catalog metadata explains who owns a metric, what changed, and where it is consumed." }, { id: "n05", label: "Dashboards", detail: "Consumer views", status: "idle", related: ["n03", "n06"], meta: "Consumer views inherit definition context instead of redefining logic per dashboard." }, { id: "n06", label: "Decision forums", detail: "Aligned reads", status: "idle", related: ["n04", "n05"], meta: "Downstream forums can trace KPI movement back to source, refresh, and definition context." }],
+    lanes: [{ id: "lineage", label: "Lineage", items: ["Source-to-metric path", "Upstream status", "Downstream consumers"], dependsOn: ["n01", "n02", "n03"] }, { id: "governance", label: "Governance", items: ["Metric owner", "Definition note", "Quality status"], dependsOn: ["n03", "n04"] }, { id: "consume", label: "Consumption", items: ["Executive view", "Team drill-down", "Decision forum"], dependsOn: ["n04", "n05", "n06"] }],
+    signals: [{ label: "Refresh completed", state: "complete", detail: "Latest governed metric refresh is available to consumers." }, { label: "Owner assigned", state: "active", detail: "Critical definitions show business ownership." }, { label: "Lineage reviewed", state: "complete", detail: "Upstream and downstream dependencies are inspectable." }],
+    decisions: [{ path: "Trust before dashboard volume", rationale: "A governed semantic layer reduces reconciliation before new surfaces are added.", outcome: "Teams can reuse KPI definitions with less metric drift.", related: ["n03", "n04", "n05"] }, { path: "Show lineage near consumption", rationale: "Consumers need upstream context at the moment they interpret a number.", outcome: "Decision forums can distinguish data freshness from business movement.", related: ["n01", "n02", "n06"] }], map: "lineage"
   },
   {
-    title: "Self-Service Decision Platform",
-    status: "Governed exploration space",
-    impact: "Reusable reporting system",
-    category: "Decision workspace",
-    accent: "violet",
-    metrics: [
-      { label: "Question paths", value: "Curated" },
-      { label: "Metric drift", value: "Reduced" },
-      { label: "Follow-up", value: "Faster" },
-    ],
-    nodes: [
-      { label: "Question bank", detail: "Recurring asks" },
-      { label: "Metric contracts", detail: "Approved logic", tone: "primary" },
-      { label: "Explore modules", detail: "Guided slices" },
-      { label: "Review rooms", detail: "Operating cadence" },
-      { label: "Annotations", detail: "Business context" },
-      { label: "Next action", detail: "Decision handoff" },
-    ],
-    lanes: [
-      { label: "Entry points", items: ["Operating question", "KPI lookup", "Exception read"] },
-      { label: "Exploration", items: ["Segment compare", "Trend explain", "Root-cause path"] },
-      { label: "Decision support", items: ["Narrative context", "Action owner", "Follow-up metric"] },
-    ],
-    signals: ["Self-serve without metric drift", "Reusable modules", "Executive-readable views", "Decision context preserved"],
-    decisionLog: ["Turned one-off reporting into paths", "Constrained exploration where definitions mattered", "Paired every view with interpretation context"],
-    map: "workspace",
+    title: "Self-Service Decision Platform", status: "Governed exploration space", impact: "Reusable reporting system", category: "Executive Workspace", accent: "violet",
+    metrics: [{ id: "paths", label: "Question paths", value: "Curated", context: "Executives enter through business questions, not blank dashboards." }, { id: "drift", label: "Metric drift", value: "Reduced", context: "Filters and drill-downs preserve governed definitions while enabling exploration." }, { id: "actions", label: "Recommended action", value: "Visible", context: "Each decision path includes context, tradeoffs, and measurable follow-up." }],
+    nodes: [{ id: "n01", label: "KPI scorecard", detail: "Executive read", status: "active", related: ["n02", "n04"], meta: "Scorecards summarize business state and expose filters for accountable drill-down." }, { id: "n02", label: "Filters", detail: "Business slices", status: "idle", related: ["n01", "n03"], meta: "Filters narrow the question without changing the approved definition." }, { id: "n03", label: "Drill-down", detail: "Question path", status: "active", related: ["n02", "n05"], meta: "Guided drill-downs answer recurring business questions in a repeatable order." }, { id: "n04", label: "Context", detail: "Narrative notes", status: "complete", related: ["n01", "n06"], meta: "Decision context keeps interpretation, caveats, and owner notes beside the KPI." }, { id: "n05", label: "Tradeoffs", detail: "Decision options", status: "warning", related: ["n03", "n06"], meta: "Tradeoffs compare action paths and show why one recommendation is preferred." }, { id: "n06", label: "Outcome", detail: "Measured follow-up", status: "idle", related: ["n04", "n05"], meta: "Recommended actions close with an owner and the metric that will prove impact." }],
+    lanes: [{ id: "entry", label: "Entry points", items: ["KPI lookup", "Operating question", "Filter context"], dependsOn: ["n01", "n02"] }, { id: "explore", label: "Exploration", items: ["Segment compare", "Trend explain", "Root-cause path"], dependsOn: ["n02", "n03", "n05"] }, { id: "decide", label: "Decision support", items: ["Rationale", "Recommended action", "Follow-up metric"], dependsOn: ["n04", "n05", "n06"] }],
+    signals: [{ label: "Decision context ready", state: "active", detail: "The selected KPI includes narrative and owner context." }, { label: "Tradeoff under review", state: "warning", detail: "Decision options are visible before action is selected." }, { label: "Outcome measure set", state: "complete", detail: "Recommended action includes a measurable follow-up." }],
+    decisions: [{ path: "Start from business questions", rationale: "The workspace guides leaders through repeatable questions rather than exposing every chart at once.", outcome: "Faster interpretation and fewer one-off reporting requests.", related: ["n01", "n03", "n04"] }, { path: "Pair action with evidence", rationale: "Recommendations are only useful when the tradeoff and follow-up metric are visible.", outcome: "Decision makers leave with rationale, owner, and expected outcome.", related: ["n05", "n06"] }], map: "workspace"
   },
   {
-    title: "Guided Operations Workflow",
-    status: "Operator decision tool",
-    impact: "Complex actions simplified",
-    category: "Guided execution",
-    accent: "amber",
-    metrics: [
-      { label: "Branches", value: "Mapped" },
-      { label: "Inputs", value: "Validated" },
-      { label: "Outputs", value: "Repeatable" },
-    ],
-    nodes: [
-      { label: "Inputs", detail: "Structured capture" },
-      { label: "Branch logic", detail: "Policy paths", tone: "primary" },
-      { label: "Checks", detail: "Validation gates" },
-      { label: "Recommendation", detail: "Next best action" },
-      { label: "Completion", detail: "Closed loop" },
-      { label: "Feedback", detail: "Rule refinement" },
-    ],
-    lanes: [
-      { label: "Operator", items: ["Select scenario", "Enter constraints", "Review guidance"] },
-      { label: "System", items: ["Resolve branch", "Validate inputs", "Return action"] },
-      { label: "Control", items: ["Reduce ambiguity", "Capture outcome", "Tune rules"] },
-    ],
-    signals: ["Ambiguity made visible", "Guidance embedded in flow", "Consistent outcomes", "Reviewable rule changes"],
-    decisionLog: ["Modeled the workflow before the interface", "Designed for edge cases first", "Made completion states explicit"],
-    map: "workflow",
+    title: "Guided Operations Workflow", status: "Operator decision tool", impact: "Complex actions simplified", category: "Operations Control Center", accent: "amber",
+    metrics: [{ id: "alerts", label: "Alerts", value: "Triage", context: "Signals route into queues and playbooks with visible resolution state." }, { id: "queues", label: "Queues", value: "Mapped", context: "Fresh opportunities, coverage review, source validation, and discovery experience work are separated by action type." }, { id: "resolution", label: "Resolution", value: "Tracked", context: "Decision paths record rationale and next state for operational follow-through." }],
+    nodes: [{ id: "n01", label: "Alert stream", detail: "Product signals", status: "active", related: ["n02", "n03"], meta: "Signals such as coverage expanded, refresh completed, source validation finished, and search quality reviewed enter triage." }, { id: "n02", label: "Queue router", detail: "Work allocation", status: "active", related: ["n01", "n04"], meta: "Queues distinguish fresh opportunities, coverage review, source validation, and discovery experience work." }, { id: "n03", label: "Case state", detail: "Open or resolved", status: "warning", related: ["n01", "n05"], meta: "Case state makes active review, waiting, and resolved work easy to separate." }, { id: "n04", label: "Playbook", detail: "Guided action", status: "complete", related: ["n02", "n05"], meta: "Playbooks prompt review signal, validate impact, and prioritize product action." }, { id: "n05", label: "Decision path", detail: "Rationale", status: "active", related: ["n03", "n04", "n06"], meta: "Operators can see why a route was chosen and what product outcome it supports." }, { id: "n06", label: "Resolution", detail: "Closed loop", status: "idle", related: ["n05"], meta: "Resolution status records the product outcome, owner, and next review state." }],
+    lanes: [{ id: "alert", label: "Signals", items: ["Coverage expanded", "Refresh completed", "Search quality reviewed"], dependsOn: ["n01", "n03"] }, { id: "queue", label: "Queues", items: ["Fresh opportunities", "Coverage review", "Source validation"], dependsOn: ["n02", "n04"] }, { id: "decision", label: "Product decisions", items: ["Review signal", "Validate impact", "Prioritize product action"], dependsOn: ["n05", "n06"] }],
+    signals: [{ label: "Coverage expanded", state: "complete", detail: "New employer-source coverage is reflected in discovery." }, { label: "Refresh completed", state: "complete", detail: "Fresh opportunities are available after the latest refresh." }, { label: "Source validation finished", state: "active", detail: "Coverage review is ready for product action." }, { label: "Search quality reviewed", state: "warning", detail: "Discovery experience queue has an item to evaluate." }],
+    decisions: [{ path: "Route signal to action", rationale: "Operators need to understand whether a signal requires review, validation, or product prioritization.", outcome: "Work moves through queues with a clear resolution state.", related: ["n01", "n02", "n05"] }, { path: "Keep product language focused", rationale: "The control center communicates user-facing product state and operational priority.", outcome: "HirePulse remains commercially safe while still feeling operational.", related: ["n04", "n05", "n06"] }], map: "workflow"
   },
 ];
-
-const accentClasses = {
-  emerald: "border-emerald-300/20 bg-emerald-300/10 text-emerald-100",
-  cyan: "border-cyan-300/20 bg-cyan-300/10 text-cyan-100",
-  violet: "border-violet-300/20 bg-violet-300/10 text-violet-100",
-  amber: "border-amber-300/20 bg-amber-300/10 text-amber-100",
-};
-
-function SystemNode({ node, index, accent }: { node: WorkSystem["nodes"][number]; index: number; accent: WorkSystem["accent"] }) {
-  return (
-    <div className={`reveal relative rounded-2xl border p-4 ${node.tone === "primary" ? accentClasses[accent] : "border-white/10 bg-zinc-950/70 text-zinc-200"}`} style={{ animationDelay: `${index * 70}ms` }}>
-      <span className="font-mono text-[11px] text-zinc-500">n{String(index + 1).padStart(2, "0")}</span>
-      <p className="mt-2 text-sm font-semibold">{node.label}</p>
-      <p className="mt-1 text-xs leading-5 text-zinc-400">{node.detail}</p>
-    </div>
-  );
-}
-
-function SystemMap({ work }: { work: WorkSystem }) {
-  const columns = work.map === "workflow" ? "md:grid-cols-3" : "md:grid-cols-6";
-  return (
-    <div className="rounded-3xl border border-white/10 bg-black/25 p-5">
-      <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-4">
-        <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">System map</p>
-        <span className="font-mono text-xs text-zinc-500">{work.map}.prod</span>
-      </div>
-      <div className={`mt-5 grid gap-3 ${columns}`}>
-        {work.nodes.map((node, index) => (
-          <div key={node.label} className="relative">
-            <SystemNode node={node} index={index} accent={work.accent} />
-            {index < work.nodes.length - 1 ? <span className="absolute -right-2 top-1/2 hidden text-zinc-600 md:block">→</span> : null}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function WorkSystemCard({ work, index }: { work: WorkSystem; index: number }) {
-  return (
-    <article className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,.065),rgba(255,255,255,.02))] shadow-2xl shadow-black/30">
-      <div className="grid gap-6 border-b border-white/10 bg-zinc-950/85 p-6 sm:p-8 lg:grid-cols-[1.1fr_.9fr]">
-        <div>
-          <p className="font-mono text-xs uppercase tracking-[0.28em] text-zinc-500">workspace / 0{index + 1}</p>
-          <h3 className="mt-4 text-3xl font-semibold tracking-[-0.045em] text-white sm:text-5xl">{work.title}</h3>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {[work.status, work.category, work.impact].map((item) => <span key={item} className={`rounded-full border px-3 py-1 text-xs uppercase tracking-[0.16em] ${accentClasses[work.accent]}`}>{item}</span>)}
-          </div>
-        </div>
-        <div className="grid grid-cols-3 gap-3">
-          {work.metrics.map((metric) => <div key={metric.label} className="rounded-2xl border border-white/10 bg-black/25 p-4"><p className="text-2xl font-semibold text-white">{metric.value}</p><p className="mt-2 text-[11px] uppercase tracking-[0.16em] text-zinc-500">{metric.label}</p></div>)}
-        </div>
-      </div>
-      <div className="grid gap-5 p-6 sm:p-8">
-        <SystemMap work={work} />
-        <div className="grid gap-5 lg:grid-cols-[1.15fr_.85fr]">
-          <div className="grid gap-3 md:grid-cols-3">
-            {work.lanes.map((lane) => <div key={lane.label} className="rounded-3xl border border-white/10 bg-zinc-950/60 p-5"><p className="text-xs uppercase tracking-[0.2em] text-zinc-500">{lane.label}</p><div className="mt-4 space-y-2">{lane.items.map((item) => <div key={item} className="rounded-xl border border-white/10 bg-white/[0.035] px-3 py-2 text-sm text-zinc-300">{item}</div>)}</div></div>)}
-          </div>
-          <div className="rounded-3xl border border-white/10 bg-black/20 p-5">
-            <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">Operating signals</p>
-            <div className="mt-4 flex flex-wrap gap-2">{work.signals.map((signal) => <span key={signal} className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-zinc-300">▣ {signal}</span>)}</div>
-            <div className="mt-5 border-t border-white/10 pt-4"><p className="text-xs uppercase tracking-[0.2em] text-zinc-500">Decision log</p><ul className="mt-3 space-y-2 text-sm leading-6 text-zinc-400">{work.decisionLog.map((entry) => <li key={entry}>↳ {entry}</li>)}</ul></div>
-          </div>
-        </div>
-      </div>
-    </article>
-  );
-}
 
 export default function Home() {
   return (
