@@ -9,24 +9,28 @@ import {
   Section,
   SectionHeading,
 } from "@/components/ui/design";
+
 export const metadata: Metadata = {
   title: "HirePulse",
   description:
-    "HirePulse is an AI Career Intelligence Platform currently in development.",
+    "HirePulse is a real-time job aggregation platform currently in development.",
 };
+
 const flow = [
-  "Upload or create résumé",
-  "Analyze role alignment",
-  "Score opportunities",
-  "Surface career insights",
-  "Iterate with feedback",
+  "Company Career Sites",
+  "ATS Parsers",
+  "Normalization Engine",
+  "Search Database",
+  "HirePulse",
 ];
-const features = [
-  "Resume intelligence",
-  "ATS matching",
-  "Opportunity scoring",
-  "Career insights",
+
+const facts = [
+  "Aggregates jobs directly from company career sites",
+  "Covers 135,000+ company career sites",
+  "Refreshes every hour",
+  "Publishes new jobs within approximately one hour",
 ];
+
 export default function HirePulse() {
   return (
     <>
@@ -35,9 +39,9 @@ export default function HirePulse() {
         <Section className="pt-32">
           <Container>
             <Heading
-              eyebrow="AI Career Intelligence Platform"
+              eyebrow="Real-time job aggregation platform"
               title="HirePulse"
-              text="A product exploration focused on helping job seekers understand fit, improve positioning, and make clearer career decisions."
+              text="An independent product that tracks company career sites, normalizes job postings, and makes fresh openings searchable quickly."
             />
             <div className="mt-8">
               <Badge>In development</Badge>
@@ -48,24 +52,24 @@ export default function HirePulse() {
           <Container>
             <div className="grid gap-6 lg:grid-cols-3">
               <Card>
-                <h2 className="text-xl font-semibold">Vision</h2>
+                <h2 className="text-xl font-semibold">Purpose</h2>
                 <p className="mt-4 text-zinc-400">
-                  Make the job search less opaque by turning résumé, job
-                  description, and market signals into practical guidance.
+                  Aggregate jobs directly from company career sites so job
+                  seekers can discover openings close to the source.
                 </p>
               </Card>
               <Card>
-                <h2 className="text-xl font-semibold">Problem</h2>
+                <h2 className="text-xl font-semibold">Coverage</h2>
                 <p className="mt-4 text-zinc-400">
-                  Job seekers often lack clear feedback on why a role is a fit,
-                  what to improve, and which opportunities deserve attention.
+                  The platform monitors more than 135,000 company career sites
+                  across many employer systems.
                 </p>
               </Card>
               <Card>
-                <h2 className="text-xl font-semibold">Who it helps</h2>
+                <h2 className="text-xl font-semibold">Refresh</h2>
                 <p className="mt-4 text-zinc-400">
-                  Candidates who want structured guidance for résumé quality,
-                  ATS alignment, and opportunity prioritization.
+                  The aggregation system runs every hour and publishes new jobs
+                  within approximately one hour of appearing on career sites.
                 </p>
               </Card>
             </div>
@@ -74,17 +78,22 @@ export default function HirePulse() {
         <Section>
           <Container>
             <SectionHeading
-              eyebrow="Core product flow"
-              title="A guided loop from résumé signal to smarter action."
+              eyebrow="Product architecture"
+              title="From employer career sites to searchable job records."
             />
             <ol className="grid gap-4 md:grid-cols-5">
-              {flow.map((step, i) => (
+              {flow.map((step, index) => (
                 <li
                   key={step}
-                  className="rounded-2xl border border-white/10 p-5"
+                  className="relative rounded-2xl border border-white/10 bg-zinc-950/70 p-5"
                 >
-                  <span className="text-emerald-300">0{i + 1}</span>
+                  <span className="text-emerald-300">0{index + 1}</span>
                   <p className="mt-3 font-semibold">{step}</p>
+                  {index < flow.length - 1 ? (
+                    <span className="absolute -right-3 top-1/2 hidden text-zinc-500 md:block">
+                      →
+                    </span>
+                  ) : null}
                 </li>
               ))}
             </ol>
@@ -92,40 +101,19 @@ export default function HirePulse() {
         </Section>
         <Section>
           <Container>
-            <div className="grid gap-6 lg:grid-cols-2">
-              <Card>
-                <h2 className="text-2xl font-semibold">Feature areas</h2>
-                <ul className="mt-5 space-y-3 text-zinc-400">
-                  {features.map((f) => (
-                    <li key={f}>• {f}</li>
-                  ))}
-                </ul>
-              </Card>
-              <Card>
-                <h2 className="text-2xl font-semibold">Current status</h2>
-                <p className="mt-5 leading-8 text-zinc-400">
-                  Currently building as a product exploration. The focus is on
-                  useful intelligence, transparent scoring, and workflows that
-                  help people take the next best action.
-                </p>
-              </Card>
-              <Card>
-                <h2 className="text-2xl font-semibold">Product principles</h2>
-                <p className="mt-5 leading-8 text-zinc-400">
-                  Be honest about uncertainty, make recommendations explainable,
-                  and optimize for candidate confidence rather than vanity
-                  scores.
-                </p>
-              </Card>
-              <Card>
-                <h2 className="text-2xl font-semibold">Exploring next</h2>
-                <p className="mt-5 leading-8 text-zinc-400">
-                  Deeper role matching, better feedback loops, and clearer
-                  opportunity prioritization without claiming guaranteed
-                  outcomes.
-                </p>
-              </Card>
-            </div>
+            <Card>
+              <h2 className="text-2xl font-semibold">Current platform facts</h2>
+              <div className="mt-5 flex flex-wrap gap-3">
+                {facts.map((fact) => (
+                  <span
+                    key={fact}
+                    className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-zinc-300"
+                  >
+                    {fact}
+                  </span>
+                ))}
+              </div>
+            </Card>
           </Container>
         </Section>
       </main>
